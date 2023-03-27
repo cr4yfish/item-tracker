@@ -1,0 +1,104 @@
+.foodPreview {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: .25rem;
+    height: 150px;
+    width: 100px;
+}
+
+.image {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 1rem;
+    font-weight: 400;
+    font-size: 14pt;
+}
+
+
+.foodPreviewExpanded {
+    position: absolute;
+    right: -13rem;
+    z-index: 100;
+    top: -5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    background-color: #121212;
+    width: 15rem;
+    height: 18rem;
+    border-radius: .33rem;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    width: 100%;
+    gap: 1rem;
+    position: relative;
+}
+
+.imageExpanded {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    overflow: hidden;
+    object-fit: cover;
+    position: relative;
+}
+
+.headerText {
+    display: flex;
+    flex-direction: column;
+}
+
+.foodName {
+    font-size: 14pt;
+    color: white;
+}
+
+.foodPlace {
+    font-size: 10pt;
+    color: rgb(186, 186, 186);
+}
+
+.details {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.detailsGroup {
+    display: flex;
+    flex-direction: column;
+    padding: .5rem;
+}
+
+.detailsLabel {
+    color: #ccc;
+}
+
+.buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    gap: 1rem;
+}

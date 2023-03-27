@@ -1,0 +1,18 @@
+.wrapper {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    padding: 1rem 0;
+}
+
+.labelRight {
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+}
+
+.input {
+    
+}

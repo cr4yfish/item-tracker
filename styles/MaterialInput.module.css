@@ -1,0 +1,48 @@
+.label {
+    font-weight: 400; 
+    color: white;
+    font-size: 12pt;
+    position: relative; 
+    background: black; 
+    padding: 0 .33rem; 
+    width: fit-content;
+    transition: all .15s;
+    transform: translateY(155%) translateX(10%);
+    pointer-events: none;
+}
+
+.labelActive {
+    transform: translateY(50%) translateX(10%)
+}
+
+.input {
+    background: transparent; 
+    padding: .75rem .75rem; 
+    border-radius: 5px; 
+    width: 100%;
+    outline: none; 
+    border: 1px solid white; 
+    color: white; 
+    font-size: 14pt;
+    transition: all .15s;
+}
+
+.input:focus {
+    border-color: var(--primary);
+}
+
+.primary:focus, .primaryFocus {
+    border-color: var(--primary);
+}
+
+.secondary:focus, .secondaryFocus {
+    border-color: var(--secondary);
+}
+
+.tertiary:focus, .tertiaryFocus {
+    border-color: var(--tertiary);
+}
+
+.inputGhost {
+    background-color: transparent !important;
+}

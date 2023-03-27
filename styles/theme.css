@@ -1,0 +1,17 @@
+:root {
+    --primary: #4457ff;
+    --primaryGradient: linear-gradient(90deg, #4457ff 0%, rgba(68,143,255,1) 100%);
+    --primaryMuted: #4457ff7c;
+    --primaryVibrant: #4559FF;
+
+    --secondary: #ff3d3d;
+    --secondaryGradient: linear-gradient(90deg, #ff3d3d 0%, #ff772a 100%);
+    --secondaryMuted: #ff44577c;
+    --secondaryVibrant: #FF4545;
+
+    --secondaryAlt: #ff4457;
+    --secondaryAltGradient: linear-gradient(90deg, #ff4457 0%, rgba(255,68,143,1) 100%);
+
+    --tertiary: #202020;
+    --tertiaryGradient: linear-gradient(90deg, #202020 0%, rgba(32,32,32,1) 100%);
+}
