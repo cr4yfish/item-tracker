@@ -1,38 +1,69 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Item Tracker
+Item Tracker is the next evolution of my FoodTracker App.
 
-## Getting Started
+## What is it?
+Item Tracker is a simple app that allows you to track items that you have in your home.  You can add items to your inventory, and then track when you use them.  You can also track when you buy more of an item, and the app will automatically update your inventory.
 
-First, run the development server:
+## Gettings started
 
+### Pre-requisites
+- A Supabase database with the following structure:
+    - `items` table
+        - `id` (UUID)
+        - `created_at` (timestampz)
+        - `name` (String)
+        - `count` (Integer)
+        - `category` (String) <-- This is a foreign key to the `categories` table
+        - `date` (String) 
+        - `place` (String)
+    - `categories` table
+        - `id` (UUID)
+        `created_at` (timestampz)
+        - `name` (String)
+    - `Persons` table
+        - `id` (UUID)
+        - `created_at` (timestampz)
+        - `name` (String)
+    - `ShoppingList` table
+        - `id` (UUID)
+        - `created_at` (timestampz)
+        - `item_id` (UUID)
+        - `quantity` (Integer)
+        - `date` (Date)
+- (Optional) An Edamame API key for suggestions and other food related stuff
+
+### Installation
+
+#### Clone the repo
+Do this however you like.
+
+#### Install the dependencies
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
+npm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+#### Build and Run the App
+```bash
+npm run build
+```
+```bash
+npm run start
+```
 
-You can start editing the page by modifying `pages/index.tsx`. The page auto-updates as you edit the file.
+Now you can head to `localhost:3000` and start using the app.
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.ts`.
+### Configuration
+The app is configured using the `/Settings` page. You can set the following:
+- Supabase URL (Required)
+- Supabase Key (Required)
+- Edamame App ID
+- Edamame App Key
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Roadmap
+- [] Finish the baseline functionality
+- [] Add a Shopping List
+- [] Add Offline Support
+- [] Add a Calendar
+- [] Add Alerts when low on items
+- [] Add Recipe Recommendations
