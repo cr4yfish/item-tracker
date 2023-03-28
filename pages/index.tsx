@@ -102,6 +102,7 @@ export default function Home() {
               <Swiper 
                 slidesPerView={3}
                 spaceBetween={25}
+                
                 className={styles.categoryReelItems}>
                 {items.filter((item) => (item.category === category.id) && !item.deleted).map((item) => (
                     <SwiperSlide className={styles.item} key={item.id}>
