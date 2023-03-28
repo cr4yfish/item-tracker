@@ -1,6 +1,7 @@
 import { User, Button } from "@nextui-org/react";
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 import IItem from "@/interfaces/IItem";
 import ICategory from "@/interfaces/ICategory";
@@ -98,6 +99,7 @@ export default function FoodPreview (
                 <div className={styles.buttons}>
                   <Button onClick={() => deleteItem(food)} color="error" auto><span className="material-icons">delete</span></Button>
                   <Button disabled color="warning" auto><span className="material-icons">edit</span></Button>
+                  <Link href={{ pathname: `/Item`, query: { id: food.id }}} ><Button color="success" auto><span className="material-icons">info</span></Button></Link>
                 </div>
               </div>}
 

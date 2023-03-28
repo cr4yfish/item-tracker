@@ -1,0 +1,33 @@
+.mainWrapper {
+    padding: 2rem;
+    padding-top: 1rem;
+}
+
+.categoryList {
+    
+}
+
+.categoryCard {
+    padding: 1rem 2rem;
+    border-radius: .33rem;
+    transition: all .25s;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.categoryCard:hover {
+    background-color: rgba(255, 255, 255, 0.142);
+}
+
+.categoryCardButtons {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+}
+
+.newCategory {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+}

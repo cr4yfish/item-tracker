@@ -14,32 +14,7 @@ import styles from "../styles/Settings.module.css";
 import "material-icons/iconfont/material-icons.css"
 
 export default function Settings() {
-    const [categories, setCategories] = useState<ICategory[]>([]);
-    const [newCategory, setNewCategory] = useState<ICategory>({} as ICategory);
-
     const [settings, setSettings] = useState<ISettings>({} as ISettings);
-
-    const handleAddNewCategory = async () => {
-        try {
-            newCategory.id = uuidv4();
-            const res = await upsertCategory(newCategory);
-            if(res) {
-                setNewCategory({} as ICategory);
-            }
-        } catch (e) {
-            console.log(e);
-        }
-    }
-
-    const RefreshCategories = async () => {
-        const { data, error } = await supabase.from('categories').select('*');
-        if (error) {
-            console.log(error);
-        } else {
-            console.log(data);
-            setCategories(data as ICategory[]);
-        }
-    }
 
     const handleOnChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSettings({
@@ -117,15 +92,19 @@ export default function Settings() {
                 <h2>Preferences</h2>
                 <div className={styles.settingsGroupContent}>
 
-                    <button className={styles.button}>
-                        <span>Change Categories</span>
-                        <span className='material-icons'>arrow_right_alt</span>
-                    </button>
+                    <Link href="/Settings/Categories">
+                        <button className={styles.button}>
+                            <span>Change Categories</span>
+                            <span className='material-icons'>arrow_right_alt</span>
+                        </button>
+                    </Link>
 
-                    <button className={styles.button}>
-                        <span>Change Users</span>
-                        <span className='material-icons'>arrow_right_alt</span>
-                    </button>
+                    <Link href="/Settings/Users">
+                        <button className={styles.button}>
+                            <span>Change Users</span>
+                            <span className='material-icons'>arrow_right_alt</span>
+                        </button>
+                    </Link>
 
                 </div>
             </div>

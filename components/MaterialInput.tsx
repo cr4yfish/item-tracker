@@ -35,7 +35,6 @@ export default function MaterialInput(
 
   // Set input inactive when onBlur && no text
   const handleBlur = (e : React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.currentTarget.value.length === 0)
     if(e.currentTarget?.value.length === 0) { setIsActive(false) };
   }
 
@@ -61,6 +60,7 @@ export default function MaterialInput(
         name={name.length > 0 ? name : label.toLocaleLowerCase()} 
         type={type} 
         autoComplete="off"
+        defaultValue={value}
       />
     </div>
   )

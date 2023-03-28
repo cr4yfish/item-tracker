@@ -21,6 +21,10 @@ const initSupabase = async (settings : ISettings) => {
   })
 }
 
+/**
+ * 
+ * @returns true if supabase is initialized
+ */
 const checkInit = () => {
   if(!init) {
     console.log("Supabase isn't initialized!", url, key);
@@ -65,8 +69,22 @@ const getItems = async () => {
     } else {
       console.log(data);
       return true;
+    } 
+  }  
+
+  const deleteCategory = async (category : ICategory) => {
+    if(!checkInit()) {
+      throw new Error("Supabase isn't init");
     }
-}
+
+    const { data, error } = await supabase.from("categories").delete().eq("id", category.id);
+    if(error) {
+      console.error(error);
+      throw new Error("Error in delete category");
+    } else {
+      return true;
+    }
+  }
 
   const getPersons = async () => {
     if(!checkInit()) {
@@ -103,6 +121,19 @@ const getItems = async () => {
     return true && res;
   }
 
+  const getItemById = async (id: string) => {
+    if(!checkInit()) {
+      throw new Error("Supabase isnt init");;
+    }
+    const { data, error } = await supabase.from('items').select('*').eq('id', id);
+    if (error) {
+      console.log(error);
+      throw new Error("Cant reach supabase");
+    } else {
+      return data[0] as IItem;
+    }
+  }
+
 export { 
   supabase, 
   initSupabase,
@@ -111,9 +142,11 @@ export {
   getItems, 
   upsertItem, 
   deleteItem, 
+  getItemById,
 
   getCategories, 
   upsertCategory,
+  deleteCategory,
 
   getPersons, 
 };

@@ -54,12 +54,44 @@
   margin-bottom: 2rem;
 }
 
+.categoryReelContent {
+  display: flex;
+  flex-direction: row;
+
+}
+
+.categoryReelShowAll {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 1rem;
+  font-size: 16pt;
+  transition: all .25s;
+  border-radius: 1rem;
+  padding: 1rem 2rem;
+}
+
+.categoryReelShowAll:hover {
+  background-color: rgba(255, 255, 255, 0.097);
+}
+
+.categoryReelShowAll span:last-of-type {
+  font-size: 32pt;
+  transition: all .25s;
+}
+
+.categoryReelShowAll:hover span:last-of-type {
+  transform: translateX(5px);
+}
+
 .categoryReelItems {
   display: flex;
   flex-direction: row;
   gap: 1rem;
   flex-wrap: nowrap;
   justify-content: flex-start;
+  width: 80%;
 }
 
 @media screen and (max-width: 328px) {

@@ -1,0 +1,11 @@
+.mainWrapper {
+    padding: 2rem;
+    padding-top: 1rem;
+}
+
+.itemsWrapper {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}

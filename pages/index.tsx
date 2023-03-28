@@ -3,6 +3,9 @@ import styles from '@/styles/Home.module.css'
 import { useState, useEffect } from 'react'
 import "material-icons/iconfont/material-icons.css"
 import Link from 'next/link'
+import { Swiper, SwiperSlide } from 'swiper/react'
+import "swiper/css"
+import "material-icons/iconfont/material-icons.css"
 
 import FoodPreview from '@/components/FoodPreview'
 
@@ -94,13 +97,25 @@ export default function Home() {
         {categories.map((category) => (
           <div className={styles.categoryReel} key={category.id}>
             <h2>{category.name}</h2>
-            <div className={styles.categoryReelItems}>
-               {items.filter((item) => (item.category === category.id) && !item.deleted).map((item) => (
-                  <div className={styles.item} key={item.id}>
-                    <FoodPreview food={item} size="medium" />
-                  </div>
-                ))}
-            </div>
+            <div className={styles.categoryReelContent}>
+        
+              <Swiper 
+                slidesPerView={3}
+                spaceBetween={25}
+                className={styles.categoryReelItems}>
+                {items.filter((item) => (item.category === category.id) && !item.deleted).map((item) => (
+                    <SwiperSlide className={styles.item} key={item.id}>
+                      <FoodPreview food={item} size="medium" />
+                    </SwiperSlide>
+                  ))}
+              </Swiper>
+
+              <Link className={styles.categoryReelShowAll} href={{ pathname: `/Category`, query: { id: category.id }}}>
+                <span>View all</span>
+                <span className='material-icons'>arrow_right_alt</span>
+              </Link>
+
+              </div>
           </div>
         ))}
         
