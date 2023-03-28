@@ -69,6 +69,7 @@ export default function Settings() {
                     <MaterialInput
                         label="Supabase Key"
                         name="supabaseKey"
+                        type="password"
                         value={settings.supabaseKey}
                         onChange={handleOnChange}
                     />
@@ -81,6 +82,7 @@ export default function Settings() {
                     <MaterialInput
                         label="Edamam Key"
                         name="edamamKey"
+                        type="password"
                         value={settings.edamamKey}
                         onChange={handleOnChange}
                     />
