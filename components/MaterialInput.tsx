@@ -42,7 +42,7 @@ export default function MaterialInput(
     if(value) {
       setIsActive(true);
     }
-  }, [])
+  }, [value])
 
   return (
     <div
