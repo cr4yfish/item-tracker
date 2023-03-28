@@ -99,6 +99,34 @@ const getItems = async () => {
     }
   }
 
+  const upsertPerson = async (newPerson : IPerson) => {
+    if(!checkInit()) {
+      throw new Error("Supabase isnt init");;
+    }
+    const { data, error } = await supabase.from('persons').upsert(newPerson);
+    if (error) {
+      console.log(error);
+      throw new Error("Can't reach supabase");
+    } else {
+      console.log(data);
+      return true;
+    } 
+  }
+
+  const deletePerson = async (person: IPerson) => {
+    if(!checkInit()) {
+      throw new Error("Supabase isn't init");
+    }
+
+    const { data, error } = await supabase.from("persons").delete().eq("id", person.id);
+    if(error) {
+      console.error(error);
+      throw new Error("Error in delete person");
+    } else {
+      return true;
+    }
+  }
+
   const upsertItem = async (item: IItem) => {
     if(!checkInit()) {
       throw new Error("Supabase isnt init");;
@@ -149,4 +177,6 @@ export {
   deleteCategory,
 
   getPersons, 
+  deletePerson,
+  upsertPerson,
 };

@@ -12,7 +12,6 @@ import ISettings from "@/interfaces/ISettings"
 
 import styles from "../../styles/Settings/Categories.module.css"
 import "material-icons/iconfont/material-icons.css"
-import Category from "../Category";
 
 export default function Categories() {
     const [categories, setCategories] = useState<ICategory[]>([] as ICategory[])
