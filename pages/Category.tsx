@@ -58,7 +58,7 @@ export default function Category() {
             if(storage != null) {
                 const settings = await JSON.parse(storage) as ISettings;
                 if(!checkInit()) {
-                    await initSupabase(settings);
+                    await initSupabase();
                 }
             }
 
