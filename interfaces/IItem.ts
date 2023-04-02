@@ -5,6 +5,7 @@ export default interface IItem {
     created_at?: string,
     name: string,
     place: string,
+    unit: string,
     count: number,
     hasDueDate: boolean,
     isOpened: boolean,
