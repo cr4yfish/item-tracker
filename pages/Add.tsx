@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Dropdown, Button } from "@nextui-org/react";
+import { Dropdown, Button, User } from "@nextui-org/react";
 import Link from "next/link";
 import Router from "next/router";
 import { v4 as uuidv4 } from "uuid";
@@ -43,7 +43,7 @@ export default function Add() {
 
     const initCategories = () => {
         if(!checkInit) {
-            initSupabase(settings);
+            initSupabase();
         }
         try {
             getCategories().then((res) => { setCategories(res); })
@@ -61,7 +61,7 @@ export default function Add() {
             // success
             if(!checkInit()) {
                 console.log("initializing supabase");
-                await initSupabase(settings);
+                await initSupabase();
                 initCategories();
             } else {
                 console.log("supabase already initialized")
@@ -106,7 +106,6 @@ export default function Add() {
                     t.food.foodId === hint.food.foodId
                 ))
             )
-            console.log("Filter did something: ",onlyWithImage == filtered);
 
             setSuggestions(filtered);
             setSuggestionsOverlay(true);
@@ -163,6 +162,13 @@ export default function Add() {
                 <>
                 <div onClick={() => setSuggestionsOverlay(false)} className={styles.overlay}></div>
                 <div className={styles.suggestions}>
+                    <User 
+                        onClick={() => setSuggestionsOverlay(false)}
+                        className={`${styles.addNewType} ${styles.suggestion}`} 
+                        src={"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"}
+                        name="Add new type"
+                        description="Add a new type of food to the database"
+                    />
                     {suggestions.length > 0 ? (
                         suggestions.map((suggestion: any) => (
                             <FoodPreview
@@ -213,12 +219,25 @@ export default function Add() {
                     name="place" 
                     label="Place" 
                 />
-                <MaterialInput 
-                    onChange={handleOnChange} 
-                    name="count" 
-                    label="Amount" 
-                    type="number" 
-                />
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    gap: "1rem",
+                }}>
+                    <MaterialInput 
+                        onChange={handleOnChange} 
+                        name="unit" 
+                        label="Unit"
+                        css={{ width: "150%"}}
+                    />
+                    <MaterialInput 
+                        onChange={handleOnChange} 
+                        name="count" 
+                        label="Amount" 
+                        type="number" 
+                    />
+                </div>
+
                 <MaterialCheckbox 
                     onChange={(newValue) => setNewItem({ ...newItem, hasDueDate: newValue })} 
                     value={newItem.hasDueDate}

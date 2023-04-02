@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Button, Dropdown } from "@nextui-org/react";
+import { Button, Dropdown, User } from "@nextui-org/react";
 import Link from "next/link";
 import Router from "next/router";
 import { v4 as uuidv4 } from "uuid";
@@ -92,7 +92,7 @@ export default function ChangeItem({
                     // success
                     if(!checkInit()) {
                         console.log("initializing supabase");
-                        await initSupabase(settings);
+                        await initSupabase();
                         await initCategories(settings, setCategories);
                     } else { 
                         console.log("supabase already initialized"); 
@@ -110,6 +110,7 @@ export default function ChangeItem({
             }
 
             (async () => {
+                /* 
                 // Translate German -> English
                 const result = await fetch("/api/translate", {
                     method: "POST",
@@ -120,9 +121,9 @@ export default function ChangeItem({
                     })
                 })
                 const translation = (await result.json()).text;
-                console.log("Translation:", translation);
+                console.log("Translation:", translation);*/
 
-                const nlp = await getFoodNLP(translation, settings.edamamId, settings.edamamKey);
+                const nlp = await getFoodNLP(item.name, settings.edamamId, settings.edamamKey);
                 if(!nlp) {
                     console.log("Got error connecting to food db");
                     return;
@@ -137,7 +138,6 @@ export default function ChangeItem({
                         t.food.foodId === hint.food.foodId
                     ))
                 )
-                console.log("Filter did something: ", onlyWithImage == filtered);
 
                 setSuggestions(filtered);
                 setSuggestionsOverlay(true);
@@ -176,6 +176,13 @@ export default function ChangeItem({
                     <>
                     <div onClick={() => setSuggestionsOverlay(false)} className={styles.overlay}></div>
                     <div className={styles.suggestions}>
+                        <User 
+                            onClick={() => setSuggestionsOverlay(false)}
+                            className={`${styles.addNewType} ${styles.suggestion}`} 
+                            src={"https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80"}
+                            name="Add new type"
+                            description="Add a new type of food to the database"
+                        />
                         {suggestions.length > 0 ? (
                             suggestions.map((suggestion: any) => (
                                 <ItemPreview
@@ -226,13 +233,26 @@ export default function ChangeItem({
                         name="place" 
                         label="Place" 
                     />
-                    <MaterialInput
-                        onChange={handleOnChange} 
-                        value={item.count}
-                        name="count" 
-                        label="Amount" 
-                        type="number" 
-                    />
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: "1rem",
+                    }}>
+                        <MaterialInput 
+                            onChange={handleOnChange}
+                            value={item.unit} 
+                            name="unit" 
+                            label="Unit"
+                            css={{ width: "150%"}}
+                        />
+                        <MaterialInput 
+                            onChange={handleOnChange} 
+                            value={item.count}
+                            name="count" 
+                            label="Amount" 
+                            type="number" 
+                        />
+                    </div>
                     <MaterialCheckbox
                         onChange={(newValue) => setItem({ ...item, hasDueDate: newValue })} 
                         value={item.hasDueDate}

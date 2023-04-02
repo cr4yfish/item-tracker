@@ -19,7 +19,8 @@ export default function MaterialInput(
     variant="primary",
     value,
     css,
-    onChange
+    onChange,
+    required=false,
   } : { 
     label: string,
     name?: string,
@@ -28,7 +29,8 @@ export default function MaterialInput(
     ariaLabel?: string,
     css?: React.CSSProperties,
     variant?: "primary" | "secondary" | "tertiary"
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void
+    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void,
+    required?: boolean
   }) {
 
   const [isActive, setIsActive] = useState(type == "date" ? true : false)
@@ -61,6 +63,7 @@ export default function MaterialInput(
         type={type} 
         autoComplete="off"
         defaultValue={value}
+        required={required}
       />
     </div>
   )

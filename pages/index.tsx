@@ -6,10 +6,13 @@ import Link from 'next/link'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import "swiper/css"
 import "material-icons/iconfont/material-icons.css"
+import { toast } from 'react-toastify'
+
 
 import FoodPreview from '@/components/ItemPreview'
 
 import { getItems, getCategories, getPersons, supabase, checkInit, initSupabase } from '@/functions/Supabase'
+import { getSettings } from '@/functions/Settings'
 
 // interfaces
 import ICategory from '@/interfaces/ICategory'
@@ -41,35 +44,37 @@ export default function Home() {
   }
 
   useEffect(() => {
-    let storage = localStorage.getItem("settings");
-    if(storage != null) {
-      const settings = JSON.parse(storage) as ISettings;
-      if(!checkInit()) {
-        initSupabase(settings);
+
+    (async () => {
+    
+      const result = await initSupabase();
+      if(!result) {
+        toast("Could not connect to database", {type: "error"});
+        return;
       }
-    }
+      await refreshData();
 
-    refreshData();
-
-    // Realtime updates
-    if(checkInit()) {
-      const changes = supabase.channel('custom-all-channel')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'items' },
-        (payload : any) => {
-          console.log('Change received!', payload)
-          const index = items.findIndex((item) => item.id === payload.new.id);
-          if(index > -1) {
-            items[index] = payload.new;
-            setItems([...items]);
+      // Realtime updates
+      if(checkInit()) {
+        const changes = supabase.channel('custom-all-channel')
+        .on(
+          'postgres_changes',
+          { event: '*', schema: 'public', table: 'items' },
+          (payload : any) => {
+            console.log('Change received!', payload)
+            const index = items.findIndex((item) => item.id === payload.new.id);
+            if(index > -1) {
+              items[index] = payload.new;
+              setItems([...items]);
+            }
           }
-        }
-      )
-      changes.subscribe();
-    } else {
-      setOnline(false);
-    }
+        )
+        changes.subscribe();
+      } else {
+        setOnline(false);
+      }
+    })();
+
   }, [])
 
   return (

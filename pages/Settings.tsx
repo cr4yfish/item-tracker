@@ -1,14 +1,15 @@
 import { Input, Button } from '@nextui-org/react';
-import { useEffect, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import Link from 'next/link';
+import { toast } from 'react-toastify';
 
 import ICategory from '@/interfaces/ICategory';
 import ISettings from '@/interfaces/ISettings';
 
 import MaterialInput from '@/components/MaterialInput';
 
-import { supabase, upsertCategory } from '@/functions/Supabase';
+import { validateSettings, saveSettings } from '@/functions/Settings';
 
 import styles from "../styles/Settings.module.css";
 import "material-icons/iconfont/material-icons.css"
@@ -23,8 +24,10 @@ export default function Settings() {
         })
     }
 
-    const saveSettings = async () => {
-        localStorage.setItem("settings", JSON.stringify(settings));
+    const handleFormEvent = async (e: FormEvent) => {
+        e.preventDefault();
+        console.log("saving settings");
+        saveSettings(settings);
     }
 
     const initSettings = () => {
@@ -34,11 +37,40 @@ export default function Settings() {
                 throw new Error("Settings are null");
             }
             const newSettings : ISettings = JSON.parse(storage);
+            if(!validateSettings(newSettings).valid) {
+                throw new Error(`New settings are invalid ${JSON.stringify(newSettings)}`);
+            }
             setSettings(newSettings);
         } catch (e) {
             console.log(e);
         }
         console.log("new settings:", settings);
+    }
+
+    const pasteSettingsFromClipboard = () => {
+        navigator.clipboard.readText().then(text => {
+            try {
+                const newSettings : ISettings = JSON.parse(text);
+                if(!validateSettings(newSettings).valid) {
+                    throw new Error(`New settings are invalid: ${JSON.stringify(newSettings)}`);
+                }
+                setSettings(newSettings);
+                saveSettings(newSettings);
+                toast("Settings pasted from clipboard", { position: "bottom-right", type: "success" });
+            } catch (e) {
+                console.error(e);
+                toast(`Error parsing settings: ${e}`, { position: "bottom-right", type: "error" });
+                return;
+            }
+        })
+    }
+
+    const copySettingsToClipBoard = () => {
+        navigator.clipboard.writeText(JSON.stringify(settings)).then(() => {
+            toast("Settings copied to clipboard", { position: "bottom-right", type: "success" });
+        }, () => {
+            toast("Error copying settings to clipboard", { position: "bottom-right", type: "error" });
+        })
     }
 
     useEffect(() => {
@@ -59,12 +91,13 @@ export default function Settings() {
 
             <div className={styles.settingsGroup}>
                 <h2>General</h2>
-                <div className={styles.inputGroup}>
+                <form onSubmit={handleFormEvent} method='post' className={styles.inputGroup}>
                     <MaterialInput 
                         label="Supabase URL"
                         name="supabaseUrl"
                         onChange={handleOnChange}
                         value={settings.supabaseUrl}
+                        required
                     />
                     <MaterialInput
                         label="Supabase Key"
@@ -72,6 +105,7 @@ export default function Settings() {
                         type="password"
                         value={settings.supabaseKey}
                         onChange={handleOnChange}
+                        required
                     />
                     <MaterialInput
                         label="Edamam ID"
@@ -93,8 +127,27 @@ export default function Settings() {
                         value={settings.deeplKey}
                         onChange={handleOnChange}
                     />
-                    <Button onClick={() => saveSettings()} style={{ marginTop: "1rem" }} auto>Save</Button>
-                </div>
+                    <div style={{
+                        display: "flex", flexDirection: "row", gap: "1rem", 
+                        alignItems: "center", flexWrap: "wrap",
+                        marginTop: "1rem"
+                    }}>
+                        <Button type='submit' auto>Save</Button>
+                        <Button
+                            onClick={pasteSettingsFromClipboard} 
+                            ghost flat auto icon={<span className='material-icons'>content_paste</span>}
+                            color="secondary" >
+                                Paste from Clipboard
+                        </Button>
+                        <Button
+                            onClick={copySettingsToClipBoard} 
+                            ghost flat auto icon={<span className='material-icons'>content_copy</span>}
+                            color="secondary" >
+                                Copy
+                        </Button>
+                    </div>
+                    
+                </form>
             </div>
 
             <div className={styles.settingsGroup}>

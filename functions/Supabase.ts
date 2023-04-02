@@ -1,20 +1,38 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
+
+
 import IItem from '@/interfaces/IItem';
 import ICategory from '@/interfaces/ICategory';
 import IPerson from '@/interfaces/IPerson';
-import ISettings from '@/interfaces/ISettings';
+
+import { getSettings } from './Settings';
 
 let url ="", key = "", supabase : SupabaseClient, init = false;
 
 
-const initSupabase = async (settings : ISettings) => {
+/**
+ * Initializes supabase
+ * @returns boolean if supabase is successfully initialized
+ */
+const initSupabase = async () => {
   return new Promise((resolve, reject) => {
+
+    // just return if already initialized
     if(init) {
       resolve(true);
     }
+
+    // get settings
+    const settings = getSettings();
+
+    if(!settings) return reject(false);
+
     console.log("initializing...", settings);
     url = settings.supabaseUrl;
     key = settings.supabaseKey;
+
+    if(!url || !key) reject(false);
+
     supabase = createClient(url, key);
     init = true;
     resolve(true);
@@ -23,7 +41,7 @@ const initSupabase = async (settings : ISettings) => {
 
 /**
  * 
- * @returns true if supabase is initialized
+ * @returns boolean if supabase is initialized
  */
 const checkInit = () => {
   if(!init) {

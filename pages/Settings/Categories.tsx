@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { Collapse, Button, Text } from "@nextui-org/react"
 import { v4 as uuidv4 } from "uuid";
+import { toast } from "react-toastify";
 
 import PageHeader from "@/components/PageHeader"
 import MaterialInput from "@/components/MaterialInput";
@@ -8,7 +9,6 @@ import MaterialInput from "@/components/MaterialInput";
 import { checkInit, initSupabase, getCategories, upsertCategory, deleteCategory, supabase } from "@/functions/Supabase"
 
 import ICategory from "@/interfaces/ICategory"
-import ISettings from "@/interfaces/ISettings"
 
 import styles from "../../styles/Settings/Categories.module.css"
 import "material-icons/iconfont/material-icons.css"
@@ -20,12 +20,12 @@ export default function Categories() {
     useEffect(() => {
         (async () => {
             if(!checkInit()) {
-                // get settings
                 console.log("Initing supabase");
-                const store = localStorage.getItem("settings");
-                if(store == null) throw new Error("Settings are null. Cannot init supabase");
-                const settings = JSON.parse(store) as ISettings;
-                await initSupabase(settings);
+                const result = await initSupabase();
+                if(!result) {
+                    toast("Could not connect to database", {type: "error"});
+                    return;
+                }
             }
             console.log("Supabase ready, getting data");
             await getCategories().then((res) => {

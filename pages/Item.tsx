@@ -24,11 +24,7 @@ export default function Item() {
             
             // init supabase if not already
             if(!checkInit()) {
-                // get settings
-                const settings = localStorage.getItem("settings");
-                if(settings == null) throw new Error ("Settings are null. Cannot init supabase");
-                const newSettings = JSON.parse(settings) as ISettings;
-                await initSupabase(newSettings);
+                await initSupabase();
             };
 
             // set item
