@@ -25,7 +25,7 @@ export default function Users() {
                 const store = localStorage.getItem("settings");
                 if(store == null) throw new Error("Settings are null. Cannot init supabase");
                 const settings = JSON.parse(store) as ISettings;
-                await initSupabase(settings);
+                await initSupabase();
             }
             console.log("Supabase ready, getting data");
             await getPersons().then((res) => {
