@@ -4,7 +4,7 @@ import "material-icons/iconfont/material-icons.css"
 
 import styles from "../styles/PageHeader.module.css"
 
-export default function PageHeader({ link = "/", text = ""} : { link: string, text: string}) {
+export default function PageHeader({ link = "/", text = ""} : { link?: string, text: string}) {
 
 
     return (

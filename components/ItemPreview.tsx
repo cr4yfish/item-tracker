@@ -10,9 +10,9 @@ import { getCategories } from "@/functions/Supabase";
 import { deleteItem } from "@/functions/Supabase";
 import { getImage } from "@/functions/FoodDatabase";
 
-import styles from "@/styles/FoodPreview.module.css";
+import styles from "@/styles/ItemPreview.module.css";
 
-export default function FoodPreview (
+export default function ItemPreview (
   { 
     food, 
     onClick=() => {}, 
@@ -59,10 +59,7 @@ export default function FoodPreview (
             {food && food.image &&
             <>
             <div 
-              onMouseOver={() => setExpandedVisible(true)} 
-              onMouseLeave={() => setExpandedVisible(false)}
               className={`${styles.foodPreview} ${className}`}>
-
 
               {expandedVisible && <div className={styles.foodPreviewExpanded}>
                 <div className={styles.header}>
@@ -89,7 +86,7 @@ export default function FoodPreview (
 
                   <div className={styles.detailsGroup}>
                     <span className={styles.detailsValue}>
-                      {categories.filter((category) => category.id == food.category )[0]?.name}
+                      {categories.filter((category) => category.id == food.category)[0]?.name}
                     </span>
                     <span className={styles.detailsLabel}>Category</span>
                   </div>
@@ -103,6 +100,7 @@ export default function FoodPreview (
                 </div>
               </div>}
 
+              <Link href={{pathname: `Item`, query: { id: food.id }}}>
               <div 
                 className={styles.image}
                 >
@@ -111,6 +109,7 @@ export default function FoodPreview (
               <div className={styles.info}>
                 <span>{food.name}</span>
               </div>
+              </Link>
             </div>
 
 

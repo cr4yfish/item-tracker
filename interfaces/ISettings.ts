@@ -3,4 +3,5 @@ export default interface ISettings {
     supabaseKey: string,
     edamamId: string,
     edamamKey: string,
+    deeplKey: string
 }

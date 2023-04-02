@@ -10,7 +10,7 @@ import ICategory from "@/interfaces/ICategory";
 import IPerson from "@/interfaces/IPerson";
 import ISettings from "@/interfaces/ISettings";
 
-import FoodPreview from "@/components/FoodPreview";
+import FoodPreview from "@/components/ItemPreview";
 import PageHeader from "@/components/PageHeader";
 
 import styles from "@/styles/Category.module.css";
@@ -67,7 +67,7 @@ export default function Category() {
                 console.log("Supabase is initialized, running data jobs");
     
                 const tmpCategories = await getCategories();
-                console.log("Settings categories", tmpCategories)
+                console.log("Setting categories", tmpCategories);
                 setCategories(tmpCategories as ICategory[]);
 
                 const currentCat = tmpCategories.find((category) => category.id === id);
@@ -75,7 +75,7 @@ export default function Category() {
                 if(currentCat) setCurrentCategory(currentCat);
 
                 const tmpItems = await getItems();
-                const filteredItems = currentCat? tmpItems.filter((item) => item.category === currentCat.id) : items;
+                const filteredItems = currentCat? tmpItems.filter((item) => (item.category === currentCat.id) && !item.deleted) : items;
                 console.log("Setting items", filteredItems, tmpItems, currentCategory);
                 setItems(filteredItems);
     

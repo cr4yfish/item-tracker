@@ -86,6 +86,13 @@ export default function Settings() {
                         value={settings.edamamKey}
                         onChange={handleOnChange}
                     />
+                    <MaterialInput
+                        label="Deepl API Key"
+                        name="deeplKey"
+                        type="password"
+                        value={settings.deeplKey}
+                        onChange={handleOnChange}
+                    />
                     <Button onClick={() => saveSettings()} style={{ marginTop: "1rem" }} auto>Save</Button>
                 </div>
             </div>

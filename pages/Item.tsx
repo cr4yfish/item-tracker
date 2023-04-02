@@ -3,10 +3,11 @@ import { useRouter } from "next/router";
 
 import IItem from "@/interfaces/IItem";
 import ISettings from "@/interfaces/ISettings";
+import ICategory from "@/interfaces/ICategory";
 
-import FoodPreview from "@/components/FoodPreview";
+import ChangeItem from "@/components/ChangeItem";
 
-import { getItemById, checkInit, initSupabase } from "@/functions/Supabase";
+import { getItemById, checkInit, initSupabase, getCategories } from "@/functions/Supabase";
 
 export default function Item() {
     const [item, setItem] = useState<IItem>({} as IItem);
@@ -15,13 +16,11 @@ export default function Item() {
     const router = useRouter();
 
     useEffect(() => {
-        
         (async () => {if(router.isReady) {
-            console.log(router);
             const id = router.query.id;
 
             // Check if valid ID
-            if(!id || (typeof id != "string")) throw new Error(id + " is not a valid id")
+            if(!id || (typeof id != "string")) throw new Error(id + " is not a valid id");
             
             // init supabase if not already
             if(!checkInit()) {
@@ -29,27 +28,26 @@ export default function Item() {
                 const settings = localStorage.getItem("settings");
                 if(settings == null) throw new Error ("Settings are null. Cannot init supabase");
                 const newSettings = JSON.parse(settings) as ISettings;
-
                 await initSupabase(newSettings);
-            }
+            };
 
             // set item
             getItemById(id).then((res) => {
-                setItem(res as IItem);
-            })
-
+                const item = res;
+                setItem(item);
+            });
         }})();
-
-    }, [router.isReady])
+    }, [router.isReady]);
 
     return (
-        <>
-            <h1>{item.name}</h1>
-            <span>{item.id}</span>
-
-            <div>
-                {item.id && <FoodPreview size="medium" food={item} />}
-            </div>
-        </>
+    <>
+        {item && 
+            <ChangeItem
+                presetItem={item}
+                presetSetItem={setItem}
+                editMode={true}
+            />
+        }
+    </>
     )
 }

@@ -7,7 +7,7 @@ import { Swiper, SwiperSlide } from 'swiper/react'
 import "swiper/css"
 import "material-icons/iconfont/material-icons.css"
 
-import FoodPreview from '@/components/FoodPreview'
+import FoodPreview from '@/components/ItemPreview'
 
 import { getItems, getCategories, getPersons, supabase, checkInit, initSupabase } from '@/functions/Supabase'
 

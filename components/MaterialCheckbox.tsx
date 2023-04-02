@@ -18,6 +18,9 @@ export default function MaterialCheckbox({
     css? : CSSProperties,
     onChange? : (e: boolean) => void
 }) {
+
+    if(value == undefined) { value = false; }
+
     return (
         <div
             className={`${styles.wrapper} ${labelRight && styles.labelRight}`}
@@ -35,6 +38,7 @@ export default function MaterialCheckbox({
                 name={name.length > 0 ? name : label}
                 onChange={(e) => onChange(e)}
                 aria-label={label}
+                isSelected={value}
             />
 
         </div>

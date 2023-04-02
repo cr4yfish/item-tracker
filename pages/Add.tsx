@@ -6,17 +6,17 @@ import { v4 as uuidv4 } from "uuid";
 
 import MaterialInput from "@/components/MaterialInput";
 import MaterialCheckbox from "@/components/MaterialCheckbox";
-import FoodPreview from "@/components/FoodPreview";
+import FoodPreview from "@/components/ItemPreview";
 
 import styles from "../styles/Add.module.css";
 import "material-icons/iconfont/material-icons.css"
 
 import IItem from "@/interfaces/IItem";
 import ICategory from "@/interfaces/ICategory";
+import ISettings from "@/interfaces/ISettings";
 
 import { getCategories, upsertItem, initSupabase, checkInit } from "@/functions/Supabase";
 import { getFoodNLP, getImage } from "@/functions/FoodDatabase";
-import ISettings from "@/interfaces/ISettings";
 
 
 export default function Add() {
@@ -67,7 +67,6 @@ export default function Add() {
                 console.log("supabase already initialized")
                 initCategories();
             }
-            
         }})();
     }, [settings])
 
@@ -77,13 +76,38 @@ export default function Add() {
             console.log("No edamam id. Suggestions are disabled");
             return;
         }
+
         (async () => {
+            /*
+            // Translate German -> English
+            const result = await fetch("/api/translate", {
+                method: "POST",
+                body: JSON.stringify({
+                    sourceText: newItem.name,
+                    source: "de",
+                    target: "en-US"
+                })
+            })
+            const translation = (await result.json()).text;
+            console.log("Translation:", translation);
+            */
             const nlp = await getFoodNLP(newItem.name, settings.edamamId, settings.edamamKey);
             if(!nlp) {
                 console.log("Got error connecting to food db");
                 return;
             }
-            const filtered = nlp.hints.filter((hint: any) => hint.food.hasOwnProperty("image"));
+            
+            // Filter out suggestions without images
+            const onlyWithImage = nlp.hints.filter((hint: any) => hint.food.hasOwnProperty("image"));
+            
+            // Filter out duplicated suggestions by foodId
+            const filtered = onlyWithImage.filter((hint: any, index: number, self: any) =>
+                index === self.findIndex((t: any) => (
+                    t.food.foodId === hint.food.foodId
+                ))
+            )
+            console.log("Filter did something: ",onlyWithImage == filtered);
+
             setSuggestions(filtered);
             setSuggestionsOverlay(true);
         })();
@@ -104,7 +128,6 @@ export default function Add() {
                 })
                 break; 
         }
-        
     }
 
     const handleOnSuggestionClick = (suggestion : any) => {
@@ -208,6 +231,21 @@ export default function Add() {
                         onChange={handleOnChange}
                         name="date"
                         label="Date"
+                        type="date"
+                    />
+                )}
+                <MaterialCheckbox 
+                    onChange={(newValue) => setNewItem({ ...newItem, isOpened: newValue })}
+                    value={newItem.isOpened}
+                    name="isOpened"
+                    label="Is Opened"
+                    css={{ paddingBottom: "0" }}
+                />
+                {newItem.isOpened && (
+                    <MaterialInput
+                        onChange={handleOnChange}
+                        name="openedOn"
+                        label="Opened On"
                         type="date"
                     />
                 )}
