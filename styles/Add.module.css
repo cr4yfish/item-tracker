@@ -58,9 +58,16 @@
     padding: .25rem;
     border-radius: .33rem;
     justify-content: flex-start;
-    cursor: pointer ;
+    cursor: pointer;
 }
 
 .suggestion:hover {
     background-color: #252525;
+}
+
+@media screen and (max-width: 400px) {
+    .suggestions {
+        width: 100%;
+        left: 0;
+    }
 }

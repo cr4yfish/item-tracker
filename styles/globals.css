@@ -39,3 +39,8 @@ button:hover {
 .swiper-slide {
   width: fit-content !important;
 }
+
+/* next-ui fixes */
+.nextui-user-info {
+  white-space: pre-wrap;
+}
