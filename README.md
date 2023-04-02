@@ -4,6 +4,18 @@ Item Tracker is the next evolution of my FoodTracker App.
 ## What is it?
 Item Tracker is a simple app that allows you to track items that you have in your home.  You can add items to your inventory, and then track when you use them.  You can also track when you buy more of an item, and the app will automatically update your inventory.
 
+## Tech stack
+- [Next.js](https://nextjs.org/)
+- [Supabase](https://supabase.io/)
+- [Edamame](https://developer.edamam.com/edamame)
+- [Deepl](https://www.deepl.com/)
+- [themealdb](https://www.themealdb.com/api.php)
+- [Swiper.js](https://swiperjs.com/)
+- [Typescript](https://www.typescriptlang.org/)
+- [NextUI](https://nextui.org/)
+- [Framer Motion](https://www.framer.com/motion/)
+- [Material Icons](https://fonts.google.com/icons)
+
 ## Gettings started
 
 ### Pre-requisites
