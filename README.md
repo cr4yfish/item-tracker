@@ -44,6 +44,8 @@ Item Tracker is a simple app that allows you to track items that you have in you
         - `date` (Date)
 - (Optional) An Edamame API key for suggestions and other food related stuff
 
+Note: This might be outdated, so just take a look at @/interfaces and see for yourself.
+
 ### Installation
 
 #### Clone the repo
